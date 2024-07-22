@@ -31,7 +31,7 @@ void JudoComponent::loop() {
   uint8_t data_;
   uint8_t buffer[4];
   // read this line
-  // 01 33 28 00 04 00 AB 90 03 00 2A ED //8
+  // 01 33 28 00 04 00 AB 90 03 00 2A ED
   if (this->available()) {
     // verify 01 33
     this->read_byte(&data_);
