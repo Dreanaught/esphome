@@ -33,22 +33,26 @@ void JudoComponent::loop() {
   // read this line
   // 01 33 28 00 04 00 AB 90 03 00 2A ED //8
   if (this->available()) {
+    // verify 01 33
     this->read_byte(&data_);
     if (data_ == 0x01) {
       this->read_byte(&data_);
       if (data_ == 0x33) {
+        // verify 28 00
         this->read_byte(&data_);
         if (data_ == 0x28) {
           this->read_byte(&data_);
           if (data_ == 0x00) {
+            // verify 04 00
             this->read_byte(&data_);
             if (data_ == 0x04) {
               this->read_byte(&data_);
               if (data_ == 0x00) {
-                this->read_array(buffer, sizeof(buffer));
                 // read 4 bytes of data into buffer
                 this->read_array(buffer, sizeof(buffer));
+                // transform lsb to msb
                 uint32_t value = (buffer[3] << 24) | (buffer[2] << 16) | (buffer[1] << 8) | buffer[0];
+                // publis data
                 this->volume_->publish_state(value / 1000.0f);
               }
             }
