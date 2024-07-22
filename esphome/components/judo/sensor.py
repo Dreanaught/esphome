@@ -15,7 +15,7 @@ DEPENDENCIES = ["uart"]
 judo_ns = cg.esphome_ns.namespace("judo")
 JudoComponent = judo_ns.class_("JudoComponent", cg.PollingComponent, uart.UARTDevice)
 
-CONFIG_SCHEMA = sensor.sensor_schema(
+CONFIG_SCHEMA = (
     cv.Schema(
         {
             cv.GenerateID(): cv.declare_id(JudoComponent),
@@ -27,8 +27,8 @@ CONFIG_SCHEMA = sensor.sensor_schema(
             ),
         }
     )
-    .extend(uart.UART_DEVICE_SCHEMA)
-    .extend(cv.polling_component_schema("60s")),
+    .extend(cv.polling_component_schema("60s"))
+    .extend(uart.UART_DEVICE_SCHEMA),
 )
 
 FINAL_VALIDATE_SCHEMA = uart.final_validate_device_schema(
