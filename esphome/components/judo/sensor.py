@@ -28,13 +28,11 @@ CONFIG_SCHEMA = (
         }
     )
     .extend(cv.polling_component_schema("60s"))
-    .extend(uart.UART_DEVICE_SCHEMA),
+    .extend(uart.UART_DEVICE_SCHEMA)
 )
 
 FINAL_VALIDATE_SCHEMA = uart.final_validate_device_schema(
-    "judo",
-    baud_rate=19200,
-    require_rx=True,
+    "judo", baud_rate=19200, require_rx=True
 )
 
 
