@@ -41,11 +41,17 @@ void JudoComponent::loop() {
         if (data_ == 0x28) {
           this->read_byte(&data_);
           if (data_ == 0x00) {
-            // read 4 bytes of data into buffer
-            this->read_array(buffer, sizeof(buffer));
-            // the 4 bytes are inverted and represent liters
-            uint32_t value = (buffer[3] << 24) | (buffer[2] << 16) | (buffer[1] << 8) | buffer[0];
-            this->volume_->publish_state(value / 1000.0f);
+            this->read_byte(&data_);
+            if (data_ == 0x04) {
+              this->read_byte(&data_);
+              if (data_ == 0x00) {
+                this->read_array(buffer, sizeof(buffer));
+                // read 4 bytes of data into buffer
+                this->read_array(buffer, sizeof(buffer));
+                uint32_t value = (buffer[3] << 24) | (buffer[2] << 16) | (buffer[1] << 8) | buffer[0];
+                this->volume_->publish_state(value / 1000.0f);
+              }
+            }
           }
         }
       }
