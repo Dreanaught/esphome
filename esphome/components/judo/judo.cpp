@@ -21,11 +21,11 @@ void JudoComponent::dump_config() {
 
 float JudoComponent::get_setup_priority() const { return setup_priority::DATA; }
 
-void JudoComponent::update() {
+/*void JudoComponent::update() {
   if (this->volume_ != nullptr) {
     // TODO: implement
   }
-}
+}*/
 
 void JudoComponent::loop() {
   uint8_t data_;
@@ -52,8 +52,10 @@ void JudoComponent::loop() {
                 this->read_array(buffer, sizeof(buffer));
                 // transform lsb to msb
                 uint32_t value = (buffer[3] << 24) | (buffer[2] << 16) | (buffer[1] << 8) | buffer[0];
-                // publis data
-                this->volume_->publish_state(value / 1000.0f);
+                // publish data
+                if (this->volume_ != nullptr) {
+                  this->volume_->publish_state(value / 1000.0f);
+                }
               }
             }
           }
