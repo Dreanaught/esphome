@@ -9,14 +9,13 @@ namespace judo {
 
 class JudoComponent : public PollingComponent, public uart::UARTDevice {
  public:
-  // void set_volume(sensor::Sensor *volume) { this->volume_ = volume; }
+  void set_total_consumed(sensor::Sensor *sensor) { this->total_consumed_ = sensor; }
   void dump_config() override;
   float get_setup_priority() const override;
-  // void update() override;
   void loop() override;
 
  protected:
-  sensor::Sensor *volume_{nullptr};
+  sensor::Sensor *total_consumed_{nullptr};
 };
 
 }  // namespace judo

@@ -14,7 +14,7 @@ void JudoComponent::dump_config() {
   }
   LOG_UPDATE_INTERVAL(this);
 
-  LOG_SENSOR("  ", "Volume", this->volume_);
+  LOG_SENSOR("  ", "Volume", this->total_consumed_);
 
   this->check_uart_settings(19200, 1, uart::UART_CONFIG_PARITY_NONE, 8);
 }
@@ -22,7 +22,7 @@ void JudoComponent::dump_config() {
 float JudoComponent::get_setup_priority() const { return setup_priority::DATA; }
 
 /*void JudoComponent::update() {
-  if (this->volume_ != nullptr) {
+  if (this->total_consumed_ != nullptr) {
     // TODO: implement
   }
 }*/
@@ -53,8 +53,8 @@ void JudoComponent::loop() {
                 // transform lsb to msb
                 uint32_t value = (buffer[3] << 24) | (buffer[2] << 16) | (buffer[1] << 8) | buffer[0];
                 // publish data
-                if (this->volume_ != nullptr) {
-                  this->volume_->publish_state(value / 1000.0f);
+                if (this->total_consumed_ != nullptr) {
+                  this->total_consumed_->publish_state(value / 1000.0f);
                 }
               }
             }

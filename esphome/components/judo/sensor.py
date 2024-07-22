@@ -42,4 +42,5 @@ async def to_code(config):
     await cg.register_component(var, config)
     await uart.register_uart_device(var, config)
     if CONF_TOTAL_CONSUMED in config:
-        cg.add(var.set_volume(config[CONF_TOTAL_CONSUMED]))
+        sens = await sensor.new_sensor(config[CONF_TOTAL_CONSUMED])
+        cg.add(var.set_total_consumed(sens))
