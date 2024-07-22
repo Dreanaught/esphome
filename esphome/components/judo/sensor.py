@@ -41,5 +41,6 @@ FINAL_VALIDATE_SCHEMA = uart.final_validate_device_schema(
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     await cg.register_component(var, config)
+    await uart.register_uart_device(var, config)
     if CONF_VOLUME in config:
         cg.add(var.set_volume(config[CONF_VOLUME]))
