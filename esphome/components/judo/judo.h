@@ -15,6 +15,7 @@ class JudoComponent : public PollingComponent, public uart::UARTDevice {
   void loop() override;
 
  protected:
+  // Sensors
   sensor::Sensor *total_consumed_{nullptr};
 };
 

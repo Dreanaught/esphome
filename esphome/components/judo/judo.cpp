@@ -21,12 +21,6 @@ void JudoComponent::dump_config() {
 
 float JudoComponent::get_setup_priority() const { return setup_priority::DATA; }
 
-/*void JudoComponent::update() {
-  if (this->total_consumed_ != nullptr) {
-    // TODO: implement
-  }
-}*/
-
 void JudoComponent::loop() {
   uint8_t data_;
   uint8_t buffer[4];
