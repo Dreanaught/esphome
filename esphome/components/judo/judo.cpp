@@ -61,7 +61,7 @@ void JudoComponent::loop() {
         }
         // read 43 00 20 00 00 03 0F 30 00 00 10 00 05 04 0D 00 E4 01 CC 00 00 00 00 00 00 00 82 0F 44 04 10 02 38 00 34
         // 00 A8 8C
-        else if (data_ = 43) {
+        else if (data_ = 0x43) {
           this->read_byte(&data_);
           if (data_ == 0x00) {
             this->read_byte(&data_);
