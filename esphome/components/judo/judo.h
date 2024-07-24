@@ -10,6 +10,8 @@ namespace judo {
 class JudoComponent : public PollingComponent, public uart::UARTDevice {
  public:
   void set_total_consumed(sensor::Sensor *sensor) { this->total_consumed_ = sensor; }
+  void set_current_flow(sensor::Sensor *sensor) { this->current_flow_ = sensor; }
+  void set_remaining_hardness(sensor::Sensor *sensor) { this->remaining_hardness_ = sensor; }
   void dump_config() override;
   float get_setup_priority() const override;
   void loop() override;
@@ -18,6 +20,8 @@ class JudoComponent : public PollingComponent, public uart::UARTDevice {
  protected:
   // Sensors
   sensor::Sensor *total_consumed_{nullptr};
+  sensor::Sensor *current_flow_{nullptr};
+  sensor::Sensor *remaining_hardness_{nullptr};
 };
 
 }  // namespace judo
