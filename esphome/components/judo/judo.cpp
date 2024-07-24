@@ -15,6 +15,8 @@ void JudoComponent::dump_config() {
   LOG_UPDATE_INTERVAL(this);
 
   LOG_SENSOR("  ", "Volume", this->total_consumed_);
+  LOG_SENSOR("  ", "Current Flow", this->current_flow_);
+  LOG_SENSOR("  ", "Remaining Hardness", this->remaining_hardness_);
 
   this->check_uart_settings(19200, 1, uart::UART_CONFIG_PARITY_NONE, 8);
 }
@@ -77,6 +79,7 @@ void JudoComponent::loop() {
                 // read 00030F380000000005040D00D601D300A60122010000B90F10040F0030002E00
                 uint8_t buffer[0x20];
                 this->read_array(buffer, sizeof(buffer));
+                ESP_LOGVV(TAG, "Received frame: %s", format_hex_pretty(buffer, sizeof(buffer)).c_str());
                 // parse current flow
                 if (this->current_flow_ != nullptr) {
                   uint32_t value = (buffer[34] << 24) | (buffer[35] << 16) | (buffer[32] << 8) | buffer[33];
