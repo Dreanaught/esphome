@@ -117,6 +117,14 @@ void JudoComponent::loop() {
                     uint8_t value = buffer[8];
                     this->remaining_hardness_->publish_state(value * 1.0f);
                   }
+                  // parse raw hardness
+                  if (this->raw_hardness_ != nullptr) {
+                    uint8_t b2[1];
+                    b2[0] = buffer[26];
+                    ESP_LOGVV(TAG, "raw hardness bytes: %s", format_hex_pretty(b2, sizeof(b2)).c_str());
+                    uint8_t value = buffer[9];
+                    this->raw_hardness_->publish_state(value / 2 + 2.0f);
+                  }
                 }
               }
             }
@@ -125,7 +133,6 @@ void JudoComponent::loop() {
       }
     }
   }
-}
 
 }  // namespace judo
 }  // namespace esphome
