@@ -80,15 +80,17 @@ void JudoComponent::loop() {
                 uint8_t buffer[0x20];
                 this->read_array(buffer, sizeof(buffer));
                 ESP_LOGVV(TAG, "Received frame: %s", format_hex_pretty(buffer, sizeof(buffer)).c_str());
-                // parse current flow
-                if (this->current_flow_ != nullptr) {
-                  uint32_t value = (buffer[34] << 24) | (buffer[35] << 16) | (buffer[32] << 8) | buffer[33];
-                  this->current_flow_->publish_state(value * 1.0f);
-                }
-                // parse remaining hardness
-                if (this->remaining_hardness_ != nullptr) {
-                  uint16_t value = (buffer[16] << 8) | buffer[17];
-                  this->remaining_hardness_->publish_state(value * 1.0f);
+                if (buffer[0] == 0x00 && buffer[1] == 0x03) {
+                  // parse current flow
+                  if (this->current_flow_ != nullptr) {
+                    uint32_t value = (buffer[34] << 24) | (buffer[35] << 16) | (buffer[32] << 8) | buffer[33];
+                    this->current_flow_->publish_state(value * 1.0f);
+                  }
+                  // parse remaining hardness
+                  if (this->remaining_hardness_ != nullptr) {
+                    uint16_t value = (buffer[16] << 8) | buffer[17];
+                    this->remaining_hardness_->publish_state(value * 1.0f);
+                  }
                 }
               }
             }
