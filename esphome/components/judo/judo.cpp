@@ -83,11 +83,21 @@ void JudoComponent::loop() {
                 if (buffer[0] == 0x00 && buffer[1] == 0x03) {
                   // parse current flow
                   if (this->current_flow_ != nullptr) {
+                    uint8_t b2[4];
+                    b2[0] = buffer[34];
+                    b2[1] = buffer[35];
+                    b2[2] = buffer[32];
+                    b2[3] = buffer[33];
+                    ESP_LOGVV(TAG, "current flow bytes: %s", format_hex_pretty(b2, sizeof(b2)).c_str());
                     uint32_t value = (buffer[34] << 24) | (buffer[35] << 16) | (buffer[32] << 8) | buffer[33];
                     this->current_flow_->publish_state(value * 1.0f);
                   }
                   // parse remaining hardness
                   if (this->remaining_hardness_ != nullptr) {
+                    uint8_t b2[2];
+                    b2[0] = buffer[16];
+                    b2[1] = buffer[17];
+                    ESP_LOGVV(TAG, "remaining hardness bytes: %s", format_hex_pretty(b2, sizeof(b2)).c_str());
                     uint16_t value = (buffer[16] << 8) | buffer[17];
                     this->remaining_hardness_->publish_state(value * 1.0f);
                   }
