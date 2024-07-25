@@ -6,6 +6,7 @@ from esphome.const import (
     DEVICE_CLASS_VOLUME,
     DEVICE_CLASS_VOLUME_FLOW_RATE,
     DEVICE_CLASS_WATER,
+    ENTITY_CATEGORY_DIAGNOSTIC,
     STATE_CLASS_MEASUREMENT,
     STATE_CLASS_TOTAL_INCREASING,
     UNIT_CUBIC_METER,
@@ -15,6 +16,7 @@ CODEOWNERS = ["@Dreanaught"]
 DEPENDENCIES = ["uart"]
 
 CONF_TOTAL_CONSUMED = "total_consumed"
+CONF_TOTAL_SOFTENED = "total_softened"
 CONF_CURRENT_FLOW = "current_flow"
 CONF_REMAINING_HARDNESS = "remaining_hardness"
 UNIT_LITRE_PER_HOUR = "l/h"
@@ -32,6 +34,12 @@ CONFIG_SCHEMA = (
                 unit_of_measurement=UNIT_CUBIC_METER,
                 accuracy_decimals=3,
             ),
+            cv.Optional(CONF_TOTAL_SOFTENED): sensor.sensor_schema(
+                state_class=STATE_CLASS_TOTAL_INCREASING,
+                device_class=DEVICE_CLASS_VOLUME,
+                unit_of_measurement=UNIT_CUBIC_METER,
+                accuracy_decimals=3,
+            ),
             cv.Optional(CONF_CURRENT_FLOW): sensor.sensor_schema(
                 state_class=STATE_CLASS_MEASUREMENT,
                 device_class=DEVICE_CLASS_VOLUME_FLOW_RATE,
@@ -41,6 +49,7 @@ CONFIG_SCHEMA = (
             cv.Optional(CONF_REMAINING_HARDNESS): sensor.sensor_schema(
                 state_class=STATE_CLASS_MEASUREMENT,
                 device_class=DEVICE_CLASS_WATER,
+                entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
             ),
         }
     )
@@ -60,6 +69,9 @@ async def to_code(config):
     if CONF_TOTAL_CONSUMED in config:
         sens = await sensor.new_sensor(config[CONF_TOTAL_CONSUMED])
         cg.add(var.set_total_consumed(sens))
+    if CONF_TOTAL_SOFTENED in config:
+        sens = await sensor.new_sensor(config[CONF_TOTAL_SOFTENED])
+        cg.add(var.set_total_softened(sens))
     if CONF_CURRENT_FLOW in config:
         sens = await sensor.new_sensor(config[CONF_CURRENT_FLOW])
         cg.add(var.set_current_flow(sens))

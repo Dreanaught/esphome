@@ -60,6 +60,25 @@ void JudoComponent::loop() {
               }
             }
           }
+        } else if (data_ == 0x29) {
+          this->read_byte(&data_);
+          if (data_ == 0x00) {
+            this->read_byte(&data_);
+            if (data_ == 0x04) {
+              this->read_byte(&data_);
+              if (data_ == 0x00) {
+                // read 4 bytes of data into buffer
+                uint8_t buffer[0x04];
+                this->read_array(buffer, sizeof(buffer));
+                // transform lsb to msb
+                uint32_t value = (buffer[3] << 24) | (buffer[2] << 16) | (buffer[1] << 8) | buffer[0];
+                // publish data
+                if (this->total_softened_ != nullptr) {
+                  this->total_softened_->publish_state(value / 1000.0f);
+                }
+              }
+            }
+          }
         }
         // read 43 00 20 00 00 03 0F 30 00 00 10 00 05 04 0D 00 E4 01 CC 00 00 00 00 00 00 00 82 0F 44 04 10 02 38 00 34
         // 00 A8 8C
