@@ -133,6 +133,7 @@ void JudoComponent::loop() {
       }
     }
   }
+}
 
 }  // namespace judo
 }  // namespace esphome
