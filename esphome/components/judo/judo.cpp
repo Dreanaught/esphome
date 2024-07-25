@@ -122,7 +122,7 @@ void JudoComponent::loop() {
                     uint8_t b2[1];
                     b2[0] = buffer[26];
                     ESP_LOGVV(TAG, "raw hardness bytes: %s", format_hex_pretty(b2, sizeof(b2)).c_str());
-                    uint8_t value = buffer[9];
+                    uint8_t value = buffer[26];
                     this->raw_hardness_->publish_state(value / 2 + 2.0f);
                   }
                 }
