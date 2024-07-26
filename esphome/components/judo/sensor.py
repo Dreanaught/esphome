@@ -20,6 +20,9 @@ CONF_TOTAL_SOFTENED = "total_softened"
 CONF_CURRENT_FLOW = "current_flow"
 CONF_REMAINING_HARDNESS = "remaining_hardness"
 CONF_RAW_HARDNESS = "raw_hardness"
+CONF_HOURS_TILL_NEXT_SERVICE = "hours_till_next_service"
+CONF_REQUESTED_SERVICE_COUNT = "requested_service_count"
+CONF_REGISTERED_SERVICE_COUNT = "registered_service_count"
 UNIT_LITRE_PER_HOUR = "l/h"
 
 judo_ns = cg.esphome_ns.namespace("judo")
@@ -56,6 +59,18 @@ CONFIG_SCHEMA = (
                 device_class=DEVICE_CLASS_WATER,
                 entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
             ),
+            cv.Optional(CONF_HOURS_TILL_NEXT_SERVICE): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+                entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
+            ),
+            cv.Optional(CONF_REQUESTED_SERVICE_COUNT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+                entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
+            ),
+            cv.Optional(CONF_REGISTERED_SERVICE_COUNT): sensor.sensor_schema(
+                state_class=STATE_CLASS_MEASUREMENT,
+                entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
+            ),
         }
     )
     .extend(cv.polling_component_schema("60s"))
@@ -86,3 +101,12 @@ async def to_code(config):
     if CONF_REMAINING_HARDNESS in config:
         sens = await sensor.new_sensor(config[CONF_REMAINING_HARDNESS])
         cg.add(var.set_remaining_hardness(sens))
+    if CONF_HOURS_TILL_NEXT_SERVICE in config:
+        sens = await sensor.new_sensor(config[CONF_HOURS_TILL_NEXT_SERVICE])
+        cg.add(var.set_hours_till_next_service(sens))
+    if CONF_REQUESTED_SERVICE_COUNT in config:
+        sens = await sensor.new_sensor(config[CONF_REQUESTED_SERVICE_COUNT])
+        cg.add(var.set_requested_service_count(sens))
+    if CONF_REGISTERED_SERVICE_COUNT in config:
+        sens = await sensor.new_sensor(config[CONF_REGISTERED_SERVICE_COUNT])
+        cg.add(var.set_registered_service_count(sens))
