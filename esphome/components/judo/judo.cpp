@@ -58,7 +58,7 @@ void JudoComponent::loop() {
               }
             }
           }
-        } else if (data_ = 0x26) {
+        } else if (data_ == 0x26) {
           this->read_byte(&data_);
           if (data_ == 0x00) {
             this->read_byte(&data_);
@@ -102,7 +102,7 @@ void JudoComponent::loop() {
               }
             }
           }
-        } else if (data_ = 0x43) {
+        } else if (data_ == 0x43) {
           this->read_byte(&data_);
           if (data_ == 0x00) {
             this->read_byte(&data_);
