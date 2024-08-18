@@ -34,13 +34,13 @@ CONFIG_SCHEMA = (
             cv.GenerateID(): cv.declare_id(JudoComponent),
             cv.Optional(CONF_TOTAL_CONSUMED): sensor.sensor_schema(
                 state_class=STATE_CLASS_TOTAL_INCREASING,
-                device_class=DEVICE_CLASS_VOLUME,
+                device_class=DEVICE_CLASS_WATER,
                 unit_of_measurement=UNIT_CUBIC_METER,
                 accuracy_decimals=3,
             ),
             cv.Optional(CONF_TOTAL_SOFTENED): sensor.sensor_schema(
                 state_class=STATE_CLASS_TOTAL_INCREASING,
-                device_class=DEVICE_CLASS_VOLUME,
+                device_class=DEVICE_CLASS_WATER,
                 unit_of_measurement=UNIT_CUBIC_METER,
                 accuracy_decimals=3,
             ),
